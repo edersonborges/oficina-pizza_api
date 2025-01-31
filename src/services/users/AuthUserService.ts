@@ -4,15 +4,15 @@ import { sign } from 'jsonwebtoken';
 import { JWT_SECRET } from '../../configs/config';
 
 interface AuthRequest {
-  telefone: string;
+  email: string;
   senha: string;
 }
 
 class AuthUserService {
-  async execute({ telefone, senha }: AuthRequest) {
+  async execute({ email, senha }: AuthRequest) {
     const usuario = await prismaClient.usuario.findFirst({
       where: {
-        telefone,
+        email,
         deletedAt: null
       }
     });
@@ -21,6 +21,8 @@ class AuthUserService {
       return 'Usuário ou senha incorretos. Tente novamente.';
     }
 
+    // A verificação abaixo é redundante, pois já filtramos por deletedAt: null
+    // Porém, mantenho caso tenha alguma lógica específica
     if (usuario.deletedAt !== null) {
       return 'Usuário não encontrado.';
     }
@@ -34,7 +36,7 @@ class AuthUserService {
     const token = sign(
       {
         nome: usuario.nome,
-        telefone: usuario.telefone,
+        email: usuario.email, // Alterado para incluir 'email' no token
       },
       jwtSecret,
       {
@@ -47,7 +49,7 @@ class AuthUserService {
       message: {
         id: usuario.id,
         nome: usuario.nome,
-        telefone: usuario.telefone,
+        email: usuario.email, // Incluído 'email' na resposta
         token: token,
       }
     };
