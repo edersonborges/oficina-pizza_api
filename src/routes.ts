@@ -13,7 +13,8 @@ import {
     gerarCodPswController,
     verificarCodigoController,
     createConviteController,
-    listUsersController
+    listUsersController,
+    createCategoriaController
 
 } from './controllers';
 
@@ -35,6 +36,7 @@ const initializeRoutes = (): Router => {
     router.put('/password/change/:id', changePswController.handle.bind(changePswController));
     router.post('/convite/cadastrar', createConviteController.handle.bind(createConviteController));
     router.get('/user/list', isAuthenticated, listUsersController.handle.bind(listUsersController));
+    router.post('/categoria/cadastrar', createConviteController.handle.bind(createConviteController));
 
     return router;
 };

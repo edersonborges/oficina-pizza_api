@@ -10,7 +10,10 @@ import { GerarCodPswController } from './users/GerarCodPswController';
 import { VerificarCodigoController } from './users/VerificarCodigoController';
 import { CreateConviteController } from './users/CreateConviteController';
 import { ListUsersController } from './users/ListUsersController';
-
+import { CreateCategoriaController } from './categoria/CreateCategoriaController';
+import { ListarCategoriaController } from './categoria/ListarCategoriaController';
+import { EditarCategoriaController } from './categoria/EditarCategoriaController';
+import { DeletarCategoriaController } from './categoria/DeletarCategoriaController';
 
 
 import { CreateUserService } from '../services/users/CreateUserService';
@@ -25,7 +28,10 @@ import { GerarCodPswService } from '../services/users/GerarCodPswService';
 import { VerificarCodigoService } from '../services/users/VerificarCodigoService';
 import { CreateConviteService } from '../services/users/CreateConviteService'; 
 import { ListUsersService } from '../services/users/ListUsersService';
-
+import { CreateCategoriaService } from '../services/categoria/CreateCategoriaService';
+import { ListarCategoriaService } from '../services/categoria/ListarCategoriaService';
+import { EditarCategoriaService } from '../services/categoria/EditarCategoriaService';
+import { DeletarCategoriaService } from '../services/categoria/DeletarCategoriaService';
 
 
 const createUserService = new CreateUserService();
@@ -40,6 +46,10 @@ const gerarCodPswService = new GerarCodPswService();
 const verificarCodigoService = new VerificarCodigoService();
 const createConviteService = new CreateConviteService();
 const listUsersService = new ListUsersService();
+const createCategoriaService = new CreateCategoriaService();
+const listarCategoriaService = new ListarCategoriaService();
+const editarCategoriaService = new EditarCategoriaService();
+const deletarCategoriaService = new DeletarCategoriaService();
 
 
 
@@ -56,3 +66,7 @@ export const gerarCodPswController = new GerarCodPswController(gerarCodPswServic
 export const verificarCodigoController = new VerificarCodigoController(verificarCodigoService);
 export const createConviteController = new CreateConviteController(createConviteService);
 export const listUsersController = new ListUsersController(listUsersService);
+export const createCategoriaController = new CreateCategoriaController(createCategoriaService);
+export const listarCategoriaController = new ListarCategoriaController(listarCategoriaService);
+export const editarCategoriaController = new EditarCategoriaController(editarCategoriaService);
+export const deletarCategoriaController = new DeletarCategoriaController(deletarCategoriaService);
