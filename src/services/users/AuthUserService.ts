@@ -21,8 +21,6 @@ class AuthUserService {
       return 'Usuário ou senha incorretos. Tente novamente.';
     }
 
-    // A verificação abaixo é redundante, pois já filtramos por deletedAt: null
-    // Porém, mantenho caso tenha alguma lógica específica
     if (usuario.deletedAt !== null) {
       return 'Usuário não encontrado.';
     }
@@ -36,7 +34,8 @@ class AuthUserService {
     const token = sign(
       {
         nome: usuario.nome,
-        email: usuario.email, // Alterado para incluir 'email' no token
+        email: usuario.email, // Incluindo email no payload
+        tipo: usuario.tipo, // Incluindo tipo
       },
       jwtSecret,
       {
@@ -49,7 +48,7 @@ class AuthUserService {
       message: {
         id: usuario.id,
         nome: usuario.nome,
-        email: usuario.email, // Incluído 'email' na resposta
+        email: usuario.email, // Retornar email em vez de telefone
         token: token,
       }
     };

@@ -10,18 +10,7 @@ class AuthUserController {
   }
 
   async handle(req: Request, res: Response) {
-    const { email, senha } = req.body;
-
-    // Validação básica
-    if (!email || !senha) {
-      return res.status(400).json({ error: 'Email e senha são obrigatórios.' });
-    }
-
-    // Validação de formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Formato de email inválido.' });
-    }
+    const { email, senha } = req.body;  // Alterado de telefone para email
 
     try {
       const result = await this.authService.execute({ email, senha });

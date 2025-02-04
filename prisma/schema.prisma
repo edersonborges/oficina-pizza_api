@@ -56,6 +56,7 @@ model endereco {
 model categoria {
   id           String    @id @default(uuid()) @map("_id")
   nome         String
+  tipo         String
 
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -372,7 +373,7 @@ model pedido {
   formaPagamento   forma_pagamento? @relation(fields: [formaPagamentoId], references: [id])
 
   itens            pedido_itens[]
-  avaliacao        avaliacoes?
+  avaliacao        avaliacoes[]
 
   lojaId           String?          @map("loja_id")
   loja             loja?            @relation(fields: [lojaId], references: [id])
