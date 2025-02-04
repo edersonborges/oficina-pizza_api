@@ -182,7 +182,8 @@ model adicionais {
   id          String           @id @default(uuid()) @map("_id")
   nome        String
   valor       Float
-  qntd        Int
+  qntd_min        Int
+  qntd_max        Int
   ativo       Boolean          @default(false)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
@@ -199,6 +200,7 @@ model tamanhos {
   id          String    @id @default(uuid()) @map("_id")
   nome        String
   pedacos     Int
+  sabores     Int
   valor       Float
   ativo       Boolean   @default(false)
   createdAt   DateTime  @default(now())
