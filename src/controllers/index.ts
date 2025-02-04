@@ -8,7 +8,8 @@ import { ListarUserDadosController } from './users/ListarUserDadosController';
 import { UploadMediaController } from './media/UploadMediaController';
 import { GerarCodPswController } from './users/GerarCodPswController';
 import { VerificarCodigoController } from './users/VerificarCodigoController';
-
+import { CreateConviteController } from './users/CreateConviteController';
+import { ListUsersController } from './users/ListUsersController';
 
 
 
@@ -22,7 +23,8 @@ import { ListarUserDadosService } from '../services/users/ListarUserDadosService
 import { UploadMediaService } from '../services/media/UploadMediaService';
 import { GerarCodPswService } from '../services/users/GerarCodPswService';
 import { VerificarCodigoService } from '../services/users/VerificarCodigoService';
-
+import { CreateConviteService } from '../services/users/CreateConviteService'; 
+import { ListUsersService } from '../services/users/ListUsersService';
 
 
 
@@ -36,6 +38,8 @@ const listarUserDadosService = new ListarUserDadosService();
 const uploadMediaService = new UploadMediaService();
 const gerarCodPswService = new GerarCodPswService();
 const verificarCodigoService = new VerificarCodigoService();
+const createConviteService = new CreateConviteService();
+const listUsersService = new ListUsersService();
 
 
 
@@ -50,3 +54,5 @@ export const listarUserDadosController = new ListarUserDadosController(listarUse
 export const uploadMediaController = new UploadMediaController(uploadMediaService);
 export const gerarCodPswController = new GerarCodPswController(gerarCodPswService);
 export const verificarCodigoController = new VerificarCodigoController(verificarCodigoService);
+export const createConviteController = new CreateConviteController(createConviteService);
+export const listUsersController = new ListUsersController(listUsersService);
