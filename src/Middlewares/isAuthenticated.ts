@@ -49,6 +49,7 @@ export async function isAuthenticated(
       id: user.id,
       nome: user.nome,
       telefone: user.telefone,
+      tipo: user.tipo
     };
 
     return next();
