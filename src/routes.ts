@@ -58,6 +58,7 @@ import {
     editarEntregaController,
     deletarEntregaController,
     listarEntregaController,
+    listarPagamentosController
 } from './controllers';
 
 const upload = multer();
@@ -143,6 +144,7 @@ const initializeRoutes = (): Router => {
     router.delete('/entrega/deletar/:id', isAuthenticated, deletarEntregaController.handle.bind(deletarEntregaController));
     router.get('/entrega/list', isAuthenticated, listarEntregaController.handle.bind(listarEntregaController));
 
+    router.get('/pagamentos/list', isAuthenticated, listarPagamentosController.handle.bind(listarPagamentosController));
 
 
     return router;
