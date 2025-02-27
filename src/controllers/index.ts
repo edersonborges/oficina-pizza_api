@@ -78,6 +78,8 @@ import { EditarEntregaController } from './loja/EditarEntregaController';
 import { DeletarEntregaController } from './loja/DeletarEntregaController';
 import { ListarEntregaController } from './loja/ListarEntregaController';
 
+import { ListarPagamentosController } from './loja/ListarPagamentosController';
+
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
 import { LogoutService } from '../services/users/LogoutService';
@@ -157,6 +159,7 @@ import { EditarEntregaService } from '../services/loja/EditarEntregaService';
 import { DeletarEntregaService } from '../services/loja/DeletarEntregaService';
 import { ListarEntregaService } from '../services/loja/ListarEntregaService';
 
+import { ListarPagamentosService } from '../services/loja/ListarPagamentosService';
 
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
@@ -234,6 +237,7 @@ const editarEntregaService = new EditarEntregaService();
 const deletarEntregaService = new DeletarEntregaService();
 const listarEntregaService = new ListarEntregaService();
 
+const listarPagamentosService = new ListarPagamentosService();
 
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
@@ -304,3 +308,4 @@ export const criarEntregaController = new CriarEntregaController(criarEntregaSer
 export const editarEntregaController = new EditarEntregaController(editarEntregaService);
 export const deletarEntregaController = new DeletarEntregaController(deletarEntregaService);
 export const listarEntregaController = new ListarEntregaController(listarEntregaService);
+export const listarPagamentosController = new ListarPagamentosController(listarPagamentosService);
