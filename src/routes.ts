@@ -30,8 +30,14 @@ import {
     criarSubCategoriaController,
     deletarSubcategoriaController,
     editarSubCategoriaController, 
-    listarSubCategoriaController, 
+    listarSubCategoriaController,
+    criarPromoController,
+    editarPromoController,
+    deletarPromoController,
+    editarPromoItensController,
 } from './controllers';
+
+
 
 const upload = multer();
 
@@ -48,10 +54,10 @@ const initializeRoutes = (): Router => {
     router.post('/upload-media', upload.single('media'), uploadMediaController.handle.bind(uploadMediaController));
     router.post('/password/codigo', gerarCodPswController.handle.bind(gerarCodPswController));
     router.post('/password/verificar/:userId', verificarCodigoController.handle.bind(verificarCodigoController));
-    router.put('/password/change/:id', changePswController.handle.bind(changePswController));
+    router.put('/password/change/:id', isAuthenticated, changePswController.handle.bind(changePswController));
     router.post('/convite/cadastrar', createConviteController.handle.bind(createConviteController));
     router.get('/user/list', isAuthenticated, listUsersController.handle.bind(listUsersController));
-    router.post('/categoria/cadastrar', createCategoriaController.handle.bind(createCategoriaController));
+    router.post('/categoria/cadastrar', isAuthenticated, createCategoriaController.handle.bind(createCategoriaController));
 
     // Rotas de Itens e Pizza
     router.get('/itens', isAuthenticated, listarItensController.handle.bind(listarItensController));
@@ -73,6 +79,12 @@ const initializeRoutes = (): Router => {
     router.delete('/subcategoria/deletar/:id', isAuthenticated, deletarSubcategoriaController.handle.bind(deletarSubcategoriaController));
     router.get('/subcategoria/list', isAuthenticated, listarSubCategoriaController.handle.bind(listarSubCategoriaController));
 
+    // Rotas de Promoção
+    router.post('/promo/cadastrar', isAuthenticated, criarPromoController.handle.bind(criarPromoController));
+    router.put('/promo/editar/:id', isAuthenticated, editarPromoController.handle.bind(editarPromoController));
+    router.delete('/promo/deletar/:id', isAuthenticated, deletarPromoController.handle.bind(deletarPromoController));
+    router.put('/promo/itens/editar/:id', isAuthenticated, editarPromoItensController.handle.bind(editarPromoItensController));
+    
     return router;
 };
 

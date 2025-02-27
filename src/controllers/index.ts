@@ -29,10 +29,17 @@ import { CadastrarPizzaController } from './cardapio/CadastrarPizzaController';
 import { CadastrarItemController } from './cardapio/CadastrarItemController';
 import { DuplicarSubcategoriaController } from './cardapio/DuplicarSubcategoriaController';
 
+// Controllers de subcategoria:
 import { CriarSubCategoriaController } from './subcategoria/CriarSubCategoriaController';
 import { DeletarSubCategoriaController } from './subcategoria/DeletarSubCategoriaController';
 import { EditarSubCategoriaController } from './subcategoria/EditarSubCategoriaController';
 import { ListarSubCategoriaController } from './subcategoria/ListarSubCategoriaController';
+
+// Controllers de promoção:
+import { CriarPromoController } from './promocao/CriarPromoController';
+import { EditarPromoController } from './promocao/EditarPromoController';
+import { DeletarPromoController } from './promocao/DeletarPromoController';
+import { EditarPromoItensController } from './promocao/EditarPromoItensController';
 
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
@@ -70,6 +77,12 @@ import { DeletarSubCategoriaService } from '../services/subcategoria/DeletarSubC
 import { EditarSubCategoriaService } from '../services/subcategoria/EditarSubCategoriaService';
 import { ListarSubCategoriaService } from '../services/subcategoria/ListarSubCategoriaService';
 
+// Services de promoção:
+import { CriarPromoService } from '../services/promocao/CriarPromoService';
+import { EditarPromoService } from '../services/promocao/EditarPromoService';
+import { DeletarPromoService } from '../services/promocao/DeletarPromoService';
+import { EditarPromoItensService } from '../services/promocao/EditarPromoItensService';
+
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
 const logoutService = new LogoutService();
@@ -101,10 +114,16 @@ const cadastrarPizzaService = new CadastrarPizzaService();
 const cadastrarItemService = new CadastrarItemService();
 const duplicarSubcategoriaService = new DuplicarSubcategoriaService();
 
-const criarSubCategoriaService = new CriarSubCategoriaService(); 
+const criarSubCategoriaService = new CriarSubCategoriaService();
 const deletarSubCategoriaService = new DeletarSubCategoriaService();
 const editarSubCategoriaService = new EditarSubCategoriaService();
 const listarSubCategoriaService = new ListarSubCategoriaService();
+
+// Instâncias dos serviços de promoção:
+const criarPromoService = new CriarPromoService();
+const editarPromoService = new EditarPromoService();
+const deletarPromoService = new DeletarPromoService();
+const editarPromoItensService = new EditarPromoItensService();
 
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
@@ -140,3 +159,9 @@ export const criarSubCategoriaController = new CriarSubCategoriaController(criar
 export const deletarSubcategoriaController = new DeletarSubCategoriaController(deletarSubCategoriaService);
 export const editarSubCategoriaController = new EditarSubCategoriaController(editarSubCategoriaService);
 export const listarSubCategoriaController = new ListarSubCategoriaController(listarSubCategoriaService);
+
+// Exportações dos controllers de promoção:
+export const criarPromoController = new CriarPromoController(criarPromoService);
+export const editarPromoController = new EditarPromoController(editarPromoService);
+export const deletarPromoController = new DeletarPromoController(deletarPromoService);
+export const editarPromoItensController = new EditarPromoItensController(editarPromoItensService);
