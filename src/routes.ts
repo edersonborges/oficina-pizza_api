@@ -41,6 +41,10 @@ import {
     editarAvaliacaoController, 
     listarAvaliacoesController,
     deletarAvaliacaoController,
+    criarCupomController,
+    editarCupomController,
+    deletarCupomController,
+    listarCupomController
 } from './controllers';
 
 const upload = multer();
@@ -98,6 +102,12 @@ const initializeRoutes = (): Router => {
     router.put('/avaliacao/editar/:id', isAuthenticated, editarAvaliacaoController.handle.bind(editarAvaliacaoController));
     router.delete('/avaliacao/deletar/:id', isAuthenticated, deletarAvaliacaoController.handle.bind(deletarAvaliacaoController));
     router.get('/avaliacao/list', isAuthenticated, listarAvaliacoesController.handle.bind(listarAvaliacoesController));
+    
+    // Rotas de Cupom
+    router.post('/cupom/cadastrar', isAuthenticated, criarCupomController.handle.bind(criarCupomController));
+    router.put('/cupom/editar/:id', isAuthenticated, editarCupomController.handle.bind(editarCupomController));
+    router.delete('/cupom/deletar/:id', isAuthenticated, deletarCupomController.handle.bind(deletarCupomController));
+    router.get('/cupom/list', isAuthenticated, listarCupomController.handle.bind(listarCupomController));
     
     return router;
 };

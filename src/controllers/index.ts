@@ -48,6 +48,12 @@ import { EditarAvaliacaoController } from './avaliacao/EditarAvaliacaoController
 import { ListarAvaliacoesController } from './avaliacao/ListarAvaliacoesController';
 import { DeletarAvaliacaoController } from './avaliacao/DeletarAvaliacaoController';
 
+// Controllers de cupom_desconto:
+import { CriarCupomController } from './cupom_desconto/CriarCupomController';
+import { EditarCupomController } from './cupom_desconto/EditarCupomController';
+import { DeletarCupomController } from './cupom_desconto/DeletarCupomController';
+import { ListarCupomController } from './cupom_desconto/ListarCupomController';
+
 // Controller de equipe:
 import { ListarEquipeController } from './users/ListarEquipeController';
 
@@ -103,6 +109,13 @@ import { DeletarAvaliacaoService } from '../services/avaliacao/DeletarAvaliacaoS
 // Services de equipe:
 import { ListarEquipeService } from '../services/users/ListarEquipeService';
 
+// Services de cupom_desconto:
+import { CriarCupomService } from '../services/cupom_desconto/CriarCupomService';
+import { EditarCupomService } from '../services/cupom_desconto/EditarCupomService';
+import { DeletarCupomService } from '../services/cupom_desconto/DeletarCupomService';
+import { ListarCupomService } from '../services/cupom_desconto/ListarCupomService';
+
+
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
 const logoutService = new LogoutService();
@@ -155,6 +168,11 @@ const deletarAvaliacaoService = new DeletarAvaliacaoService();
 // Instâncias dos serviços de equipe:
 const listarEquipeService = new ListarEquipeService();
 
+const criarCupomService = new CriarCupomService();
+const editarCupomService = new EditarCupomService();
+const deletarCupomService = new DeletarCupomService();
+const listarCupomService = new ListarCupomService();
+
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
 export const logoutController = new LogoutController(logoutService);
@@ -205,3 +223,8 @@ export const deletarAvaliacaoController = new DeletarAvaliacaoController(deletar
 
 // Exportação do controller de equipe:
 export const listarEquipeController = new ListarEquipeController(listarEquipeService);
+
+export const criarCupomController = new CriarCupomController(criarCupomService);
+export const editarCupomController = new EditarCupomController(editarCupomService);
+export const deletarCupomController = new DeletarCupomController(deletarCupomService);
+export const listarCupomController = new ListarCupomController(listarCupomService);
