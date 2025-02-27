@@ -40,11 +40,16 @@ import { CriarPromoController } from './promocao/CriarPromoController';
 import { EditarPromoController } from './promocao/EditarPromoController';
 import { DeletarPromoController } from './promocao/DeletarPromoController';
 import { EditarPromoItensController } from './promocao/EditarPromoItensController';
-import { ListarEquipeController } from './users/ListarEquipeController';
-
 import { ListarPromocaoController } from './promocao/ListarPromocaoController';
 
+// Controllers de avaliações:
+import { CriarAvaliacaoController } from './avaliacao/CriarAvaliacaoController';
+import { EditarAvaliacaoController } from './avaliacao/EditarAvaliacaoController';
+import { ListarAvaliacoesController } from './avaliacao/ListarAvaliacoesController';
+import { DeletarAvaliacaoController } from './avaliacao/DeletarAvaliacaoController';
 
+// Controller de equipe:
+import { ListarEquipeController } from './users/ListarEquipeController';
 
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
@@ -87,8 +92,16 @@ import { CriarPromoService } from '../services/promocao/CriarPromoService';
 import { EditarPromoService } from '../services/promocao/EditarPromoService';
 import { DeletarPromoService } from '../services/promocao/DeletarPromoService';
 import { EditarPromoItensService } from '../services/promocao/EditarPromoItensService';
-import { ListarEquipeService } from '../services/users/ListarEquipeService';
 import { ListarPromocaoService } from '../services/promocao/ListarPromocaoService';
+
+// Services de avaliações:
+import { CriarAvaliacaoService } from '../services/avaliacao/CriarAvaliacaoService';
+import { EditarAvaliacaoService } from '../services/avaliacao/EditarAvaliacaoService';
+import { ListarAvaliacoesService } from '../services/avaliacao/ListarAvaliacoesService';
+import { DeletarAvaliacaoService } from '../services/avaliacao/DeletarAvaliacaoService';
+
+// Services de equipe:
+import { ListarEquipeService } from '../services/users/ListarEquipeService';
 
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
@@ -131,8 +144,16 @@ const criarPromoService = new CriarPromoService();
 const editarPromoService = new EditarPromoService();
 const deletarPromoService = new DeletarPromoService();
 const editarPromoItensService = new EditarPromoItensService();
-const listarEquipeService = new ListarEquipeService();
 const listarPromocaoService = new ListarPromocaoService();
+
+// Instâncias dos serviços de avaliações:
+const criarAvaliacaoService = new CriarAvaliacaoService();
+const editarAvaliacaoService = new EditarAvaliacaoService();
+const listarAvaliacoesService = new ListarAvaliacoesService();
+const deletarAvaliacaoService = new DeletarAvaliacaoService();
+
+// Instâncias dos serviços de equipe:
+const listarEquipeService = new ListarEquipeService();
 
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
@@ -174,7 +195,13 @@ export const criarPromoController = new CriarPromoController(criarPromoService);
 export const editarPromoController = new EditarPromoController(editarPromoService);
 export const deletarPromoController = new DeletarPromoController(deletarPromoService);
 export const editarPromoItensController = new EditarPromoItensController(editarPromoItensService);
-
-export const listarEquipeController = new ListarEquipeController(listarEquipeService);
-
 export const listarPromocaoController = new ListarPromocaoController(listarPromocaoService);
+
+// Exportações dos controllers de avaliações:
+export const criarAvaliacaoController = new CriarAvaliacaoController(criarAvaliacaoService);
+export const editarAvaliacaoController = new EditarAvaliacaoController(editarAvaliacaoService);
+export const listarAvaliacoesController = new ListarAvaliacoesController(listarAvaliacoesService);
+export const deletarAvaliacaoController = new DeletarAvaliacaoController(deletarAvaliacaoService);
+
+// Exportação do controller de equipe:
+export const listarEquipeController = new ListarEquipeController(listarEquipeService);

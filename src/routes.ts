@@ -36,10 +36,12 @@ import {
     deletarPromoController,
     editarPromoItensController,
     listarEquipeController,
-    listarPromocaoController
+    listarPromocaoController,
+    criarAvaliacaoController,
+    editarAvaliacaoController, 
+    listarAvaliacoesController,
+    deletarAvaliacaoController,
 } from './controllers';
-
-
 
 const upload = multer();
 
@@ -88,7 +90,14 @@ const initializeRoutes = (): Router => {
     router.put('/promo/itens/editar/:id', isAuthenticated, editarPromoItensController.handle.bind(editarPromoItensController));
     router.get('/promo/list', isAuthenticated, listarPromocaoController.handle.bind(listarPromocaoController));
     
+    // Rotas de Equipe
     router.get('/equipe/list', isAuthenticated, listarEquipeController.handle.bind(listarEquipeController));
+    
+    // Rotas de Avaliações
+    router.post('/avaliacao/cadastrar', isAuthenticated, criarAvaliacaoController.handle.bind(criarAvaliacaoController));
+    router.put('/avaliacao/editar/:id', isAuthenticated, editarAvaliacaoController.handle.bind(editarAvaliacaoController));
+    router.delete('/avaliacao/deletar/:id', isAuthenticated, deletarAvaliacaoController.handle.bind(deletarAvaliacaoController));
+    router.get('/avaliacao/list', isAuthenticated, listarAvaliacoesController.handle.bind(listarAvaliacoesController));
     
     return router;
 };
