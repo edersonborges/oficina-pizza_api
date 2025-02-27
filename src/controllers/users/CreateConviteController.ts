@@ -5,10 +5,10 @@ class CreateConviteController {
   constructor(private createConviteService: CreateConviteService) {}
 
   async handle(req: Request, res: Response) {
-    const permissao = req.user.tipo
-    if (permissao != 0){
-        return res.status(401).json({ error: "Acesso não autorizado" });
-    }
+    // const permissao = req.user.tipo
+    // if (permissao != 0){
+    //     return res.status(401).json({ error: "Acesso não autorizado" });
+    // }
     try {
       const { nome, email, tipo } = req.body;
 

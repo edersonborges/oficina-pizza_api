@@ -14,8 +14,23 @@ import {
     verificarCodigoController,
     createConviteController,
     listUsersController,
-    createCategoriaController
-
+    createCategoriaController,
+    listarItensController,
+    deletarItensController,
+    editarItensController,
+    editarSaborController,
+    editarMassaController,
+    editarAdicionalController,
+    criarAdicionalController,
+    criarMassaController,
+    criarSaborController,
+    cadastrarPizzaController,
+    cadastrarItemController,
+    duplicarSubcategoriaController,
+    criarSubCategoriaController,
+    deletarSubcategoriaController,
+    editarSubCategoriaController, 
+    listarSubCategoriaController, 
 } from './controllers';
 
 const upload = multer();
@@ -23,7 +38,7 @@ const upload = multer();
 const initializeRoutes = (): Router => {
     const router = Router();
     
-    // User routes
+    // Rotas de usuário
     router.post('/user/cadastrar', createUserController.handle.bind(createUserController));
     router.post('/login', authUserController.handle.bind(authUserController));
     router.delete('/user/delete', isAuthenticated, deleteUserController.handle.bind(deleteUserController));
@@ -36,7 +51,27 @@ const initializeRoutes = (): Router => {
     router.put('/password/change/:id', changePswController.handle.bind(changePswController));
     router.post('/convite/cadastrar', createConviteController.handle.bind(createConviteController));
     router.get('/user/list', isAuthenticated, listUsersController.handle.bind(listUsersController));
-    router.post('/categoria/cadastrar', createConviteController.handle.bind(createConviteController));
+    router.post('/categoria/cadastrar', createCategoriaController.handle.bind(createCategoriaController));
+
+    // Rotas de Itens e Pizza
+    router.get('/itens', isAuthenticated, listarItensController.handle.bind(listarItensController));
+    router.delete('/itens/:id', isAuthenticated, deletarItensController.handle.bind(deletarItensController));
+    router.put('/itens/update/:id', isAuthenticated, editarItensController.handle.bind(editarItensController));
+    router.put('/itens/sabor/:id', isAuthenticated, editarSaborController.handle.bind(editarSaborController));
+    router.put('/itens/massa/:id', isAuthenticated, editarMassaController.handle.bind(editarMassaController));
+    router.put('/itens/adicional/:id', isAuthenticated, editarAdicionalController.handle.bind(editarAdicionalController));
+    router.post('/itens/adicional/cadastrar', isAuthenticated, criarAdicionalController.handle.bind(criarAdicionalController));
+    router.post('/itens/massa/cadastrar', isAuthenticated, criarMassaController.handle.bind(criarMassaController));
+    router.post('/itens/sabor/cadastrar', isAuthenticated, criarSaborController.handle.bind(criarSaborController));
+    router.post('/pizza/cadastrar', isAuthenticated, cadastrarPizzaController.handle.bind(cadastrarPizzaController));
+    router.post('/itens/cadastrar', isAuthenticated, cadastrarItemController.handle.bind(cadastrarItemController));
+    router.post('/subcategoria/duplicar/:id', isAuthenticated, duplicarSubcategoriaController.handle.bind(duplicarSubcategoriaController));
+
+    // Rotas de Subcategoria
+    router.post('/subcategoria/cadastrar', isAuthenticated, criarSubCategoriaController.handle.bind(criarSubCategoriaController));
+    router.put('/subcategoria/editar/:id', isAuthenticated, editarSubCategoriaController.handle.bind(editarSubCategoriaController));
+    router.delete('/subcategoria/deletar/:id', isAuthenticated, deletarSubcategoriaController.handle.bind(deletarSubcategoriaController));
+    router.get('/subcategoria/list', isAuthenticated, listarSubCategoriaController.handle.bind(listarSubCategoriaController));
 
     return router;
 };
