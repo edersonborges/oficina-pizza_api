@@ -35,6 +35,8 @@ import {
     editarPromoController,
     deletarPromoController,
     editarPromoItensController,
+    listarEquipeController,
+    listarPromocaoController
 } from './controllers';
 
 
@@ -84,6 +86,9 @@ const initializeRoutes = (): Router => {
     router.put('/promo/editar/:id', isAuthenticated, editarPromoController.handle.bind(editarPromoController));
     router.delete('/promo/deletar/:id', isAuthenticated, deletarPromoController.handle.bind(deletarPromoController));
     router.put('/promo/itens/editar/:id', isAuthenticated, editarPromoItensController.handle.bind(editarPromoItensController));
+    router.get('/promo/list', isAuthenticated, listarPromocaoController.handle.bind(listarPromocaoController));
+    
+    router.get('/equipe/list', isAuthenticated, listarEquipeController.handle.bind(listarEquipeController));
     
     return router;
 };

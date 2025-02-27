@@ -40,6 +40,11 @@ import { CriarPromoController } from './promocao/CriarPromoController';
 import { EditarPromoController } from './promocao/EditarPromoController';
 import { DeletarPromoController } from './promocao/DeletarPromoController';
 import { EditarPromoItensController } from './promocao/EditarPromoItensController';
+import { ListarEquipeController } from './users/ListarEquipeController';
+
+import { ListarPromocaoController } from './promocao/ListarPromocaoController';
+
+
 
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
@@ -82,6 +87,8 @@ import { CriarPromoService } from '../services/promocao/CriarPromoService';
 import { EditarPromoService } from '../services/promocao/EditarPromoService';
 import { DeletarPromoService } from '../services/promocao/DeletarPromoService';
 import { EditarPromoItensService } from '../services/promocao/EditarPromoItensService';
+import { ListarEquipeService } from '../services/users/ListarEquipeService';
+import { ListarPromocaoService } from '../services/promocao/ListarPromocaoService';
 
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
@@ -124,6 +131,8 @@ const criarPromoService = new CriarPromoService();
 const editarPromoService = new EditarPromoService();
 const deletarPromoService = new DeletarPromoService();
 const editarPromoItensService = new EditarPromoItensService();
+const listarEquipeService = new ListarEquipeService();
+const listarPromocaoService = new ListarPromocaoService();
 
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
@@ -165,3 +174,7 @@ export const criarPromoController = new CriarPromoController(criarPromoService);
 export const editarPromoController = new EditarPromoController(editarPromoService);
 export const deletarPromoController = new DeletarPromoController(deletarPromoService);
 export const editarPromoItensController = new EditarPromoItensController(editarPromoItensService);
+
+export const listarEquipeController = new ListarEquipeController(listarEquipeService);
+
+export const listarPromocaoController = new ListarPromocaoController(listarPromocaoService);
