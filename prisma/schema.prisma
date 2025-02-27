@@ -55,7 +55,6 @@ model endereco {
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 
-  // Relação com usuario
   usuario     usuario  @relation(fields: [usuarioId], references: [id])
 }
 
@@ -71,7 +70,6 @@ model categoria {
   updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
 
-  // Uma categoria possui várias subcategorias
   subCategorias  subCategoria[]
 }
 
@@ -90,7 +88,6 @@ model subCategoria {
   updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
 
-  // Uma subcategoria possui vários itens (produtos)
   itens          itens[]
 }
 
@@ -99,7 +96,6 @@ model subCategoria {
 //
 model arquivos {
   id          String     @id @default(uuid()) @map("_id")
-  promocaoId  String?    @map("promocao_id")
   lojaId      String?    @map("loja_id")
   
   // Novo campo opcional para o usuário
@@ -118,9 +114,8 @@ model arquivos {
   itens       itens[]
 
   loja        loja?      @relation(fields: [lojaId], references: [id])
-  promocao    promocao?  @relation(fields: [promocaoId], references: [id])
+  // Removemos a relação com promocao, pois as imagens de promoções ficarão no modelo promocao_itens
 
-  // Relação opcional com usuario
   usuario     usuario?   @relation(fields: [userId], references: [id])
 }
 
@@ -142,17 +137,14 @@ model itens {
   imagemId        String?        @map("imagem_id")
   arquivo         arquivos?      @relation(fields: [imagemId], references: [id])
   
-  // Relação com a subcategoria (ex.: "Pizza -> Salgada" ou "Bebidas -> Refrigerantes")
   subCategoriaId  String         @map("sub_categoria_id")
   subCategoria    subCategoria   @relation(fields: [subCategoriaId], references: [id])
   
-  // Relações one-to-many para configurações específicas (para pizzas)
   sabores         sabores[]
   massas          massas[]
   adicionais      adicionais[]
   tamanhos        tamanhos[]
 
-  // Relação com itens de pedidos
   pedidoItens     pedido_itens[]
 }
 
@@ -173,7 +165,6 @@ model sabores {
   imagemId    String?    @map("imagem_id")
   arquivo     arquivos?  @relation(fields: [imagemId], references: [id])
   
-  // Associação com o item (produto)
   itemId      String
   item        itens      @relation(fields: [itemId], references: [id])
 }
@@ -195,7 +186,6 @@ model massas {
   imagemId    String?    @map("imagem_id")
   arquivo     arquivos?  @relation(fields: [imagemId], references: [id])
   
-  // Associação com o item (produto)
   itemId      String
   item        itens      @relation(fields: [itemId], references: [id])
 }
@@ -215,7 +205,6 @@ model adicionais {
   updatedAt   DateTime         @updatedAt
   deletedAt   DateTime?
 
-  // Associação com o item (produto)
   itemId      String
   item        itens            @relation(fields: [itemId], references: [id])
   
@@ -237,7 +226,6 @@ model tamanhos {
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
 
-  // Associação com o item (produto)
   itemId      String
   item        itens     @relation(fields: [itemId], references: [id])
 }
@@ -352,19 +340,27 @@ model cupom_desconto {
   deletedAt   DateTime?
 }
 
+//
+//  Modelo promocao
+//
 model promocao {
   id            String           @id @default(uuid()) @map("_id")
   nome          String
   descricao     String
   valorPromocao Float            // Valor final da promoção
-  dataInicio    DateTime         // Data de início da promoção (em UTC)
-  dataFim       DateTime         // Data de fim da promoção (em UTC)
+  dataInicio    DateTime         // Data de início (UTC)
+  dataFim       DateTime         // Data de fim (UTC)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
+  deletedAt     DateTime?        // Adicionado para soft delete
 
-  itens         promocao_itens[] // Relação com os itens da promoção
+  itens         promocao_itens[]
 }
 
+
+//
+//  Modelo promocao_itens
+//
 model promocao_itens {
   id          String     @id @default(uuid()) @map("_id")
   nome        String
@@ -373,8 +369,8 @@ model promocao_itens {
   img_key     String?    // Imagem de cada item da promoção
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?  // Campo para soft delete
 
-  // Relação opcional com a promoção
   promocao    promocao?  @relation(fields: [promocaoId], references: [id])
   promocaoId  String?
 }
@@ -390,11 +386,10 @@ model pagamentos {
   status       String
   valor        Float
 
-  pedidoId     String   @map("pedido_id") // NÃO é @unique
+  pedidoId     String   @map("pedido_id")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  // Relação 1:N (muitos pagamentos → 1 pedido)
   pedido       pedido   @relation(fields: [pedidoId], references: [id])
 }
 
@@ -415,7 +410,6 @@ model pedido {
   lojaId           String?          @map("loja_id")
   loja             loja?            @relation(fields: [lojaId], references: [id])
 
-  // Múltiplos pagamentos podem referenciar 1 pedido
   pagamentos       pagamentos[]
 
   createdAt        DateTime         @default(now())
