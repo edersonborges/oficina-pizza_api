@@ -69,7 +69,6 @@ class CreateUserService {
                     email,
                     senha: hashedPassword,
                     telefone,
-                    cpf,
                 },
             });
 

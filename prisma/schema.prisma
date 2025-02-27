@@ -14,6 +14,7 @@ model usuario {
   id        String    @id @default(uuid()) @map("_id")
   nome      String
   email     String    @unique
+  cpf       String?    @unique
   telefone  String
   senha     String
   tipo      Int       @default(3)
@@ -24,6 +25,7 @@ model usuario {
 
   pedidos   pedido[]
   enderecos endereco[]
+  arquivos   arquivos[]
 }
 
 //
@@ -88,25 +90,32 @@ model subCategoria {
 //  Modelo arquivos
 //
 model arquivos {
-  id        String     @id @default(uuid()) @map("_id")
-  img_key   String
-  tipo      String
+  id          String     @id @default(uuid()) @map("_id")
+  promocaoId  String?    @map("promocao_id")
+  lojaId      String?    @map("loja_id")
+  
+  // Novo campo opcional para o usuário
+  userId      String?
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  deletedAt DateTime?
+  img_key     String
+  tipo        String
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
 
   // Relações com outros modelos
-  sabores   sabores[]
-  massas    massas[]
-  itens     itens[]
+  sabores     sabores[]
+  massas      massas[]
+  itens       itens[]
 
-  lojaId    String?   @map("loja_id")
-  loja      loja?     @relation(fields: [lojaId], references: [id])
+  loja        loja?      @relation(fields: [lojaId], references: [id])
+  promocao    promocao?  @relation(fields: [promocaoId], references: [id])
 
-  promocaoId String?  @map("promocao_id")
-  promocao   promocao? @relation(fields: [promocaoId], references: [id])
+  // Relação opcional com usuario
+  usuario     usuario?   @relation(fields: [userId], references: [id])
 }
+
 
 //
 //  Modelo itens
@@ -455,4 +464,25 @@ model pedido_itens_adc {
 
   pedidoItem   pedido_itens   @relation(fields: [pedidoItemId], references: [id])
   adicional    adicionais     @relation(fields: [adicionalId], references: [id])
+}
+
+
+model convite {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  tipo      Int      @default(2)
+  utilizado Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model recSenhaToken {
+  id         String    @id @default(uuid())  // Chave primária do tipo UUID
+  email      String
+  token      String
+  isUsed     Boolean   @default(false)
+  
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
