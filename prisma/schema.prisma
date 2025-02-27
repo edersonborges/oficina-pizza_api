@@ -385,6 +385,7 @@ model pagamentos {
   forma        String
   status       String
   valor        Float
+  dataPagamentos      DateTime?
 
   pedidoId     String   @map("pedido_id")
   createdAt    DateTime @default(now())
@@ -400,7 +401,7 @@ model pedido {
   id               String           @id @default(uuid()) @map("_id")
   usuarioId        String?          @map("usuario_id")
   usuario          usuario?         @relation(fields: [usuarioId], references: [id])
-
+  dataPedido      DateTime?
   formaPagamentoId String?          @map("forma_pagamento_id")
   formaPagamento   forma_pagamento? @relation(fields: [formaPagamentoId], references: [id])
 
@@ -439,6 +440,7 @@ model avaliacoes {
   nota        Int
   comentario  String
   pedidoId    String   @map("pedido_id")
+  dataAvaliacao      DateTime?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
