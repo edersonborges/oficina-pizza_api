@@ -44,7 +44,20 @@ import {
     criarCupomController,
     editarCupomController,
     deletarCupomController,
-    listarCupomController
+    listarCupomController,
+    criarLojaController, 
+    editarLojaController,
+    editarHorariosController,
+    criarPausaProgramadaController,
+    editarPausaProgramadaController,
+    deletarPausaProgramadaController,
+    criarFeriadoController,
+    editarFeriadoController, 
+    deletarFeriadoController,
+    criarEntregaController,
+    editarEntregaController,
+    deletarEntregaController,
+    listarEntregaController,
 } from './controllers';
 
 const upload = multer();
@@ -109,6 +122,29 @@ const initializeRoutes = (): Router => {
     router.delete('/cupom/deletar/:id', isAuthenticated, deletarCupomController.handle.bind(deletarCupomController));
     router.get('/cupom/list', isAuthenticated, listarCupomController.handle.bind(listarCupomController));
     
+    // Rotas de Loja
+    router.post('/loja/cadastrar', isAuthenticated, criarLojaController.handle.bind(criarLojaController));
+    router.put('/loja/editar/:id', isAuthenticated, editarLojaController.handle.bind(editarLojaController));
+    router.put('/loja/horarios/editar', isAuthenticated, editarHorariosController.handle.bind(editarHorariosController));
+
+    // Rotas de Pausa Programada
+    router.post('/pausa-programada/cadastrar', isAuthenticated, criarPausaProgramadaController.handle.bind(criarPausaProgramadaController));
+    router.put('/pausa-programada/editar/:id', isAuthenticated, editarPausaProgramadaController.handle.bind(editarPausaProgramadaController));
+    router.delete('/pausa-programada/deletar/:id', isAuthenticated, deletarPausaProgramadaController.handle.bind(deletarPausaProgramadaController));
+
+    // Rotas de Feriado
+    router.post('/feriado/cadastrar', isAuthenticated, criarFeriadoController.handle.bind(criarFeriadoController));
+    router.put('/feriado/editar/:id', isAuthenticated, editarFeriadoController.handle.bind(editarFeriadoController));
+    router.delete('/feriado/deletar/:id', isAuthenticated, deletarFeriadoController.handle.bind(deletarFeriadoController));
+
+    // Rotas de Entrega
+    router.post('/entrega/cadastrar', isAuthenticated, criarEntregaController.handle.bind(criarEntregaController));
+    router.put('/entrega/editar/:id', isAuthenticated, editarEntregaController.handle.bind(editarEntregaController));
+    router.delete('/entrega/deletar/:id', isAuthenticated, deletarEntregaController.handle.bind(deletarEntregaController));
+    router.get('/entrega/list', isAuthenticated, listarEntregaController.handle.bind(listarEntregaController));
+
+
+
     return router;
 };
 

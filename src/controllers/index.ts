@@ -57,6 +57,27 @@ import { ListarCupomController } from './cupom_desconto/ListarCupomController';
 // Controller de equipe:
 import { ListarEquipeController } from './users/ListarEquipeController';
 
+// Importações dos controllers de loja:
+import { CriarLojaController } from './loja/CriarLojaController';
+import { EditarLojaController } from './loja/EditarLojaController';
+import { EditarHorariosController } from './loja/EditarHorariosController';
+
+import { CriarPausaProgramadaController } from './loja/CriarPausaProgramadaController';
+import { EditarPausaProgramadaController } from './loja/EditarPausaProgramadaController';
+import { DeletarPausaProgramadaController } from './loja/DeletarPausaProgramadaController';
+
+
+// Importações dos controllers de feriado:
+import { CriarFeriadoController } from './loja/CriarFeriadoController';
+import { EditarFeriadoController } from './loja/EditarFeriadoController';
+import { DeletarFeriadoController } from './loja/DeletarFeriadoController';
+
+// Importações dos controllers de entrega:
+import { CriarEntregaController } from './loja/CriarEntregaController';
+import { EditarEntregaController } from './loja/EditarEntregaController';
+import { DeletarEntregaController } from './loja/DeletarEntregaController';
+import { ListarEntregaController } from './loja/ListarEntregaController';
+
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
 import { LogoutService } from '../services/users/LogoutService';
@@ -114,6 +135,27 @@ import { CriarCupomService } from '../services/cupom_desconto/CriarCupomService'
 import { EditarCupomService } from '../services/cupom_desconto/EditarCupomService';
 import { DeletarCupomService } from '../services/cupom_desconto/DeletarCupomService';
 import { ListarCupomService } from '../services/cupom_desconto/ListarCupomService';
+
+// Importações dos serviços de loja:
+import { CriarLojaService } from '../services/loja/CriarLojaService';
+import { EditarLojaService } from '../services/loja/EditarLojaService';
+import { EditarHorariosService } from '../services/loja/EditarHorariosService';
+
+import { CriarPausaProgramadaService } from '../services/loja/CriarPausaProgramadaService';
+import { EditarPausaProgramadaService } from '../services/loja/EditarPausaProgramadaService';
+import { DeletarPausaProgramadaService } from '../services/loja/DeletarPausaProgramadaService';
+
+
+// Importações dos serviços de feriado:
+import { CriarFeriadoService } from '../services/loja/CriarFeriadoService';
+import { EditarFeriadoService } from '../services/loja/EditarFeriadoService';
+import { DeletarFeriadoService } from '../services/loja/DeletarFeriadoService';
+
+// Importações dos serviços de entrega:
+import { CriarEntregaService } from '../services/loja/CriarEntregaService';
+import { EditarEntregaService } from '../services/loja/EditarEntregaService';
+import { DeletarEntregaService } from '../services/loja/DeletarEntregaService';
+import { ListarEntregaService } from '../services/loja/ListarEntregaService';
 
 
 const createUserService = new CreateUserService();
@@ -173,6 +215,26 @@ const editarCupomService = new EditarCupomService();
 const deletarCupomService = new DeletarCupomService();
 const listarCupomService = new ListarCupomService();
 
+const criarLojaService = new CriarLojaService();
+const editarLojaService = new EditarLojaService();
+const editarHorariosService = new EditarHorariosService();
+
+const criarPausaProgramadaService = new CriarPausaProgramadaService();
+const editarPausaProgramadaService = new EditarPausaProgramadaService();
+const deletarPausaProgramadaService = new DeletarPausaProgramadaService();
+
+// Instâncias dos serviços de feriado:
+const criarFeriadoService = new CriarFeriadoService();
+const editarFeriadoService = new EditarFeriadoService();
+const deletarFeriadoService = new DeletarFeriadoService();
+
+// Instâncias dos serviços de entrega:
+const criarEntregaService = new CriarEntregaService();
+const editarEntregaService = new EditarEntregaService();
+const deletarEntregaService = new DeletarEntregaService();
+const listarEntregaService = new ListarEntregaService();
+
+
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
 export const logoutController = new LogoutController(logoutService);
@@ -228,3 +290,17 @@ export const criarCupomController = new CriarCupomController(criarCupomService);
 export const editarCupomController = new EditarCupomController(editarCupomService);
 export const deletarCupomController = new DeletarCupomController(deletarCupomService);
 export const listarCupomController = new ListarCupomController(listarCupomService);
+
+export const criarLojaController = new CriarLojaController(criarLojaService);
+export const editarLojaController = new EditarLojaController(editarLojaService);
+export const editarHorariosController = new EditarHorariosController(editarHorariosService);
+export const criarPausaProgramadaController = new CriarPausaProgramadaController(criarPausaProgramadaService);
+export const editarPausaProgramadaController = new EditarPausaProgramadaController(editarPausaProgramadaService);
+export const deletarPausaProgramadaController = new DeletarPausaProgramadaController(deletarPausaProgramadaService);
+export const criarFeriadoController = new CriarFeriadoController(criarFeriadoService);
+export const editarFeriadoController = new EditarFeriadoController(editarFeriadoService);
+export const deletarFeriadoController = new DeletarFeriadoController(deletarFeriadoService);
+export const criarEntregaController = new CriarEntregaController(criarEntregaService);
+export const editarEntregaController = new EditarEntregaController(editarEntregaService);
+export const deletarEntregaController = new DeletarEntregaController(deletarEntregaService);
+export const listarEntregaController = new ListarEntregaController(listarEntregaService);
