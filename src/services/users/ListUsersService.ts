@@ -14,7 +14,7 @@ class ListUsersService {
               tipo: 'perfil'
             },
             select: {
-              imgKey: true
+              img_key: true
             }
           }
         }
@@ -26,7 +26,7 @@ class ListUsersService {
         email: user.email,
         tipo: user.tipo,
         // Se existir uma imagem de perfil, pega a primeira
-        imagem: user.arquivos.length > 0 ? user.arquivos[0].imgKey : null
+        imagem: user.arquivos.length > 0 ? user.arquivos[0].img_key : null
       }));
 
       return { message: 'Usuários listados com sucesso', users: result };

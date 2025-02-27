@@ -27,26 +27,26 @@ class UpdateUserService {
       // Se houver um img_key fornecido, verificar e atualizar/criar registro de Arquivo
       if (img_key) {
         // Procurar um arquivo existente para o mesmo usuário e tipo
-        const existingFile = await prismaClient.arquivo.findFirst({
+        const existingFile = await prismaClient.arquivos.findFirst({
           where: {
-            usuarioId: id,
+            userId: id,
             tipo: tipoImagem,
           },
         });
 
         if (existingFile) {
           // Atualizar o imgKey do arquivo existente
-          await prismaClient.arquivo.update({
+          await prismaClient.arquivos.update({
             where: { id: existingFile.id },
-            data: { imgKey: img_key },
+            data: { img_key: img_key },
           });
         } else {
           // Criar um novo registro de arquivo para o usuário
-          await prismaClient.arquivo.create({
+          await prismaClient.arquivos.create({
             data: {
-              usuarioId: id,
+              userId: id,
               tipo: tipoImagem,
-              imgKey: img_key,
+              img_key: img_key,
             },
           });
         }
