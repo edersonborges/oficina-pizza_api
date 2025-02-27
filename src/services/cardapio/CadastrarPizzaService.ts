@@ -1,17 +1,25 @@
 import prismaClient from '../../prisma';
 
+interface PizzaItemDTO {
+  nome: string;
+  descricao: string;
+  preco: number;
+  subCategoriaId: string; // ID da subcategoria correspondente (ex.: "Pizza → Salgada")
+  img_key?: string;       // Opcional: imagem do item
+}
+
 interface SaborDTO {
   nome: string;
   descricao: string;
   valor: number;
-  img_key?: string;  // opcional, se vier cadastramos em arquivos
+  img_key?: string;  // Opcional: se vier, cadastramos em arquivos
 }
 
 interface MassaDTO {
   nome: string;
   descricao: string;
   valor: number;
-  img_key?: string;  // opcional, se vier cadastramos em arquivos
+  img_key?: string;  // Opcional: se vier, cadastramos em arquivos
 }
 
 interface AdicionalDTO {
@@ -24,12 +32,13 @@ interface AdicionalDTO {
 interface TamanhoDTO {
   nome: string;
   pedacos: number;
-  sabores: number; // campo int
+  sabores: number; // Quantidade de sabores permitidos para este tamanho
   valor: number;
   ativo?: boolean;
 }
 
 interface CadastrarPizzaDTO {
+  item: PizzaItemDTO;
   sabores?: SaborDTO[];
   massas?: MassaDTO[];
   adicionais?: AdicionalDTO[];
@@ -37,26 +46,51 @@ interface CadastrarPizzaDTO {
 }
 
 class CadastrarPizzaService {
-  async execute({ 
-    sabores = [], 
-    massas = [], 
-    adicionais = [], 
-    tamanhos = [] 
+  async execute({
+    item,
+    sabores = [],
+    massas = [],
+    adicionais = [],
+    tamanhos = [],
   }: CadastrarPizzaDTO) {
 
-    // Usamos uma única transação para criar tudo ou nada
+    // Usamos uma transação para garantir que tudo seja criado ou nada seja persistido
     const result = await prismaClient.$transaction(async (prisma) => {
+      // 0) Criar o registro do item (pizza)
+      let itemArquivoId: string | undefined;
+      if (item.img_key) {
+        // Transforma o nome do item conforme a regra: espaços para "_" e minúsculo
+        const tipoImg = item.nome.replace(/\s+/g, '_').toLowerCase();
+        const arquivo = await prisma.arquivos.create({
+          data: {
+            img_key: item.img_key,
+            tipo: tipoImg,
+          },
+        });
+        itemArquivoId = arquivo.id;
+      }
 
-      // 1) Cadastrar Sabores
+      const pizzaItem = await prisma.itens.create({
+        data: {
+          nome: item.nome,
+          descricao: item.descricao,
+          preco: item.preco,
+          subCategoriaId: item.subCategoriaId,
+          tipoProduto: 'PIZZA', // Identifica o produto como pizza
+          imagemId: itemArquivoId ?? null,
+          ativo: true,
+        },
+      });
+
+      // 1) Cadastrar Sabores vinculados ao item
       for (const sabor of sabores) {
         let arquivoId: string | undefined;
-
-        // Se tiver img_key, cria registro em arquivos
         if (sabor.img_key) {
+          const tipoImg = sabor.nome.replace(/\s+/g, '_').toLowerCase();
           const arquivo = await prisma.arquivos.create({
             data: {
               img_key: sabor.img_key,
-              tipo: 'sabor',
+              tipo: tipoImg,
             },
           });
           arquivoId = arquivo.id;
@@ -68,20 +102,21 @@ class CadastrarPizzaService {
             descricao: sabor.descricao,
             valor: sabor.valor,
             imagemId: arquivoId ?? null,
-            ativo: true, // Ajuste se quiser false
+            ativo: true,
+            itemId: pizzaItem.id,  // Associação com o item criado
           },
         });
       }
 
-      // 2) Cadastrar Massas
+      // 2) Cadastrar Massas vinculadas ao item
       for (const massa of massas) {
         let arquivoId: string | undefined;
-
         if (massa.img_key) {
+          const tipoImg = massa.nome.replace(/\s+/g, '_').toLowerCase();
           const arquivo = await prisma.arquivos.create({
             data: {
               img_key: massa.img_key,
-              tipo: 'massa',
+              tipo: tipoImg,
             },
           });
           arquivoId = arquivo.id;
@@ -94,11 +129,12 @@ class CadastrarPizzaService {
             valor: massa.valor,
             imagemId: arquivoId ?? null,
             ativo: true,
+            itemId: pizzaItem.id,  // Associação com o item
           },
         });
       }
 
-      // 3) Cadastrar Adicionais
+      // 3) Cadastrar Adicionais vinculados ao item
       for (const adc of adicionais) {
         await prisma.adicionais.create({
           data: {
@@ -107,26 +143,28 @@ class CadastrarPizzaService {
             qntd_min: adc.qntd_min,
             qntd_max: adc.qntd_max,
             ativo: true,
+            itemId: pizzaItem.id,  // Associação com o item
           },
         });
       }
 
-      // 4) Cadastrar Tamanhos
+      // 4) Cadastrar Tamanhos vinculados ao item
       for (const t of tamanhos) {
         await prisma.tamanhos.create({
           data: {
             nome: t.nome,
             pedacos: t.pedacos,
-            sabores: t.sabores, // esse é o campo int "sabores"
+            sabores: t.sabores,
             valor: t.valor,
             ativo: t.ativo ?? true,
+            itemId: pizzaItem.id,  // Associação com o item
           },
         });
       }
 
-      // Se tudo der certo, retornamos algo
       return {
         message: 'Cadastro realizado com sucesso!',
+        pizzaItem,
       };
     });
 

@@ -15,6 +15,31 @@ import { ListarCategoriaController } from './categoria/ListarCategoriaController
 import { EditarCategoriaController } from './categoria/EditarCategoriaController';
 import { DeletarCategoriaController } from './categoria/DeletarCategoriaController';
 
+// Controllers de itens/pizzas:
+import { ListarItensController } from './cardapio/ListarItensController';
+import { DeletarItensController } from './cardapio/DeletarItensController';
+import { EditarItensController } from './cardapio/EditarItensController';
+import { EditarSaborController } from './cardapio/EditarSaborController';
+import { EditarMassaController } from './cardapio/EditarMassaController';
+import { EditarAdicionalController } from './cardapio/EditarAdicionalController';
+import { CriarAdicionalController } from './cardapio/CriarAdicionalController';
+import { CriarMassaController } from './cardapio/CriarMassaController';
+import { CriarSaborController } from './cardapio/CriarSaborController';
+import { CadastrarPizzaController } from './cardapio/CadastrarPizzaController';
+import { CadastrarItemController } from './cardapio/CadastrarItemController';
+import { DuplicarSubcategoriaController } from './cardapio/DuplicarSubcategoriaController';
+
+// Controllers de subcategoria:
+import { CriarSubCategoriaController } from './subcategoria/CriarSubCategoriaController';
+import { DeletarSubCategoriaController } from './subcategoria/DeletarSubCategoriaController';
+import { EditarSubCategoriaController } from './subcategoria/EditarSubCategoriaController';
+import { ListarSubCategoriaController } from './subcategoria/ListarSubCategoriaController';
+
+// Controllers de promoção:
+import { CriarPromoController } from './promocao/CriarPromoController';
+import { EditarPromoController } from './promocao/EditarPromoController';
+import { DeletarPromoController } from './promocao/DeletarPromoController';
+import { EditarPromoItensController } from './promocao/EditarPromoItensController';
 
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
@@ -26,13 +51,37 @@ import { ListarUserDadosService } from '../services/users/ListarUserDadosService
 import { UploadMediaService } from '../services/media/UploadMediaService';
 import { GerarCodPswService } from '../services/users/GerarCodPswService';
 import { VerificarCodigoService } from '../services/users/VerificarCodigoService';
-import { CreateConviteService } from '../services/users/CreateConviteService'; 
+import { CreateConviteService } from '../services/users/CreateConviteService';
 import { ListUsersService } from '../services/users/ListUsersService';
 import { CreateCategoriaService } from '../services/categoria/CreateCategoriaService';
 import { ListarCategoriaService } from '../services/categoria/ListarCategoriaService';
 import { EditarCategoriaService } from '../services/categoria/EditarCategoriaService';
 import { DeletarCategoriaService } from '../services/categoria/DeletarCategoriaService';
 
+// Services de itens/pizzas:
+import { ListarItensService } from '../services/cardapio/ListarItensService';
+import { DeletarItensService } from '../services/cardapio/DeletarItensService';
+import { EditarItensService } from '../services/cardapio/EditarItensService';
+import { EditarSaborService } from '../services/cardapio/EditarSaborService';
+import { EditarMassaService } from '../services/cardapio/EditarMassaService';
+import { EditarAdicionalService } from '../services/cardapio/EditarAdicionalService';
+import { CriarAdicionalService } from '../services/cardapio/CriarAdicionalService';
+import { CriarMassaService } from '../services/cardapio/CriarMassaService';
+import { CriarSaborService } from '../services/cardapio/CriarSaborService';
+import { CadastrarPizzaService } from '../services/cardapio/CadastrarPizzaService';
+import { CadastrarItemService } from '../services/cardapio/CadastrarItemService';
+import { DuplicarSubcategoriaService } from '../services/cardapio/DuplicarSubcategoriaService';
+
+import { CriarSubCategoriaService } from '../services/subcategoria/CriarSubCategoriaService';
+import { DeletarSubCategoriaService } from '../services/subcategoria/DeletarSubCategoriaService';
+import { EditarSubCategoriaService } from '../services/subcategoria/EditarSubCategoriaService';
+import { ListarSubCategoriaService } from '../services/subcategoria/ListarSubCategoriaService';
+
+// Services de promoção:
+import { CriarPromoService } from '../services/promocao/CriarPromoService';
+import { EditarPromoService } from '../services/promocao/EditarPromoService';
+import { DeletarPromoService } from '../services/promocao/DeletarPromoService';
+import { EditarPromoItensService } from '../services/promocao/EditarPromoItensService';
 
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
@@ -51,8 +100,30 @@ const listarCategoriaService = new ListarCategoriaService();
 const editarCategoriaService = new EditarCategoriaService();
 const deletarCategoriaService = new DeletarCategoriaService();
 
+// Instâncias dos serviços de itens/pizzas:
+const listarItensService = new ListarItensService();
+const deletarItensService = new DeletarItensService();
+const editarItensService = new EditarItensService();
+const editarSaborService = new EditarSaborService();
+const editarMassaService = new EditarMassaService();
+const editarAdicionalService = new EditarAdicionalService();
+const criarAdicionalService = new CriarAdicionalService();
+const criarMassaService = new CriarMassaService();
+const criarSaborService = new CriarSaborService();
+const cadastrarPizzaService = new CadastrarPizzaService();
+const cadastrarItemService = new CadastrarItemService();
+const duplicarSubcategoriaService = new DuplicarSubcategoriaService();
 
+const criarSubCategoriaService = new CriarSubCategoriaService();
+const deletarSubCategoriaService = new DeletarSubCategoriaService();
+const editarSubCategoriaService = new EditarSubCategoriaService();
+const listarSubCategoriaService = new ListarSubCategoriaService();
 
+// Instâncias dos serviços de promoção:
+const criarPromoService = new CriarPromoService();
+const editarPromoService = new EditarPromoService();
+const deletarPromoService = new DeletarPromoService();
+const editarPromoItensService = new EditarPromoItensService();
 
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
@@ -70,3 +141,27 @@ export const createCategoriaController = new CreateCategoriaController(createCat
 export const listarCategoriaController = new ListarCategoriaController(listarCategoriaService);
 export const editarCategoriaController = new EditarCategoriaController(editarCategoriaService);
 export const deletarCategoriaController = new DeletarCategoriaController(deletarCategoriaService);
+
+// Exportações dos controllers de itens/pizzas:
+export const listarItensController = new ListarItensController(listarItensService);
+export const deletarItensController = new DeletarItensController(deletarItensService);
+export const editarItensController = new EditarItensController(editarItensService);
+export const editarSaborController = new EditarSaborController(editarSaborService);
+export const editarMassaController = new EditarMassaController(editarMassaService);
+export const editarAdicionalController = new EditarAdicionalController(editarAdicionalService);
+export const criarAdicionalController = new CriarAdicionalController(criarAdicionalService);
+export const criarMassaController = new CriarMassaController(criarMassaService);
+export const criarSaborController = new CriarSaborController(criarSaborService);
+export const cadastrarPizzaController = new CadastrarPizzaController(cadastrarPizzaService);
+export const cadastrarItemController = new CadastrarItemController(cadastrarItemService);
+export const duplicarSubcategoriaController = new DuplicarSubcategoriaController(duplicarSubcategoriaService);
+export const criarSubCategoriaController = new CriarSubCategoriaController(criarSubCategoriaService);
+export const deletarSubcategoriaController = new DeletarSubCategoriaController(deletarSubCategoriaService);
+export const editarSubCategoriaController = new EditarSubCategoriaController(editarSubCategoriaService);
+export const listarSubCategoriaController = new ListarSubCategoriaController(listarSubCategoriaService);
+
+// Exportações dos controllers de promoção:
+export const criarPromoController = new CriarPromoController(criarPromoService);
+export const editarPromoController = new EditarPromoController(editarPromoService);
+export const deletarPromoController = new DeletarPromoController(deletarPromoService);
+export const editarPromoItensController = new EditarPromoItensController(editarPromoItensService);

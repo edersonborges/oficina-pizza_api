@@ -8,7 +8,7 @@ interface CreateUserInput {
     senha: string;
     email: string;
     telefone: string;
-    cpf: string;
+    cpf?: string;
 }
 
 class CreateUserService {
@@ -20,7 +20,11 @@ class CreateUserService {
 
             if (errors.length > 0) {
                 const errorMessage = errors
-                    .map(error => error.constraints ? Object.values(error.constraints).join(', ') : '')
+                    .map(error =>
+                        error.constraints
+                            ? Object.values(error.constraints).join(', ')
+                            : ''
+                    )
                     .filter(msg => msg)
                     .join('. ');
                 return errorMessage;
@@ -28,55 +32,60 @@ class CreateUserService {
 
             const { nome, email, senha, telefone, cpf } = createUserInput;
 
-            // Verificando se existe um convite válido para o email fornecido
+            // Verifica se existe um convite válido para o email fornecido
             const convite = await prismaClient.convite.findFirst({
                 where: {
-                    email: email,
-                    utilizado: false,  // Convite ainda não utilizado
+                    email,
+                    utilizado: false, // Convite ainda não utilizado
                 }
-            }); 
+            });
             console.log(convite);
 
-            if (!convite) {
-                return 'Email não possui um convite válido ou já foi utilizado.';
-            }
+            // Define o tipo do usuário: se houver convite, utiliza o tipo do convite; caso contrário, define como 3.
+            const tipoUsuario = convite ? convite.tipo : 3;
 
-            // Verificando se o telefone já existe
+            // Verifica se o telefone já está em uso
             const existingUserByTelefone = await prismaClient.usuario.findFirst({ where: { telefone } });
             if (existingUserByTelefone) {
                 return 'O telefone informado já está em uso por outro usuário.';
             }
 
-            // Verificando se o email já existe na tabela de usuários
+            // Verifica se o email já está em uso
             const existingUserByEmail = await prismaClient.usuario.findFirst({ where: { email } });
             if (existingUserByEmail) {
                 return 'O email informado já está em uso por outro usuário.';
             }
 
-            // Verificando se o cpf já existe
-            const existingUserByCpf = await prismaClient.usuario.findFirst({ where: { cpf } });
-            if (existingUserByCpf) {
-                return 'O CPF informado já está em uso por outro usuário.';
+            // Verifica se o CPF já existe (somente se fornecido)
+            if (cpf) {
+                const existingUserByCpf = await prismaClient.usuario.findFirst({ where: { cpf } });
+                if (existingUserByCpf) {
+                    return 'O CPF informado já está em uso por outro usuário.';
+                }
             }
 
             // Hash da senha
             const hashedPassword = await hash(senha, 10);
 
-            // Criando usuário
+            // Cria o usuário com o tipo definido
             const user = await prismaClient.usuario.create({
                 data: {
                     nome,
                     email,
                     senha: hashedPassword,
                     telefone,
+                    cpf,
+                    tipo: tipoUsuario,
                 },
             });
 
-            // Após criar o usuário, marcar o convite como utilizado
-            await prismaClient.convite.update({
-                where: { id: convite.id },
-                data: { utilizado: true }
-            });
+            // Se houver convite, marca-o como utilizado
+            if (convite) {
+                await prismaClient.convite.update({
+                    where: { id: convite.id },
+                    data: { utilizado: true }
+                });
+            }
 
             return { message: user };
         } catch (error) {

@@ -1,28 +1,27 @@
-import { IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsNotEmpty } from 'class-validator';
 
-class CreateUserDTO {
+export class CreateUserDTO {
     @IsNotEmpty({ message: 'O nome é obrigatório.' })
-    @IsString()
+    @IsString({ message: 'O nome deve ser uma string.' })
     nome: string;
 
+    @IsNotEmpty({ message: 'O email é obrigatório.' })
+    @IsEmail({}, { message: 'Email inválido.' })
+    email: string;
+
     @IsNotEmpty({ message: 'A senha é obrigatória.' })
-    @IsString()
-    @MinLength(6, { message: 'A senha deve ter no mínimo 6 caracteres.' })
+    @IsString({ message: 'A senha deve ser uma string.' })
     senha: string;
 
-    @IsNotEmpty({ message: 'A data de nascimento é obrigatória.' })
-    @IsString()
-    dataNasc: string;
-
-    @IsString()
+    @IsNotEmpty({ message: 'O telefone é obrigatório.' })
+    @IsString({ message: 'O telefone deve ser uma string.' })
     telefone: string;
 
-    constructor(init?: Partial<CreateUserDTO>) {
-        this.nome = init?.nome ?? '';
-        this.senha = init?.senha ?? '';
-        this.dataNasc = init?.dataNasc ?? '';
-        this.telefone = init?.telefone ?? '';
+    @IsOptional()
+    @IsString({ message: 'O CPF deve ser uma string.' })
+    cpf?: string;
+
+    constructor(data: Partial<CreateUserDTO>) {
+        Object.assign(this, data);
     }
 }
-
-export { CreateUserDTO };

@@ -9,7 +9,7 @@ class ListarCategoriaService {
         deletedAt: null,
       },
       include: {
-        subCategoria: {
+        subCategorias: {
           where: { deletedAt: null }, // para não listar subcategorias deletadas
         },
       },
