@@ -326,19 +326,20 @@ model entrega {
 //  Modelo cupom_desconto
 //
 model cupom_desconto {
-  id          String   @id @default(uuid()) @map("_id")
-  tipo        String
-  dataInicio  DateTime
-  dataFim     DateTime?
-  descricao   String
-  valor       Float
-  publico     Boolean
-  qntd        Int
+  id             String    @id @default(uuid()) @map("_id")
+  nome           String
+  dataInicio     DateTime
+  dataFim        DateTime
+  descricao      String
+  valor          Float?    // Valor opcional
+  tipoDesc       String
+  qntdDisponivel Int
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
 }
+
 
 //
 //  Modelo promocao
