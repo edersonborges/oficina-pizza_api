@@ -80,6 +80,10 @@ import { ListarEntregaController } from './loja/ListarEntregaController';
 
 import { ListarPagamentosController } from './loja/ListarPagamentosController';
 
+import { CreatePixPaymentController } from './pagamento/CreatePixPaymentController';
+import { CriarPagamentoCartaoController } from './pagamento/CriarPagamentoCartaoController';
+import { WebhookMpController } from './pagamento/WebhookMpController';
+
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
 import { LogoutService } from '../services/users/LogoutService';
@@ -161,6 +165,10 @@ import { ListarEntregaService } from '../services/loja/ListarEntregaService';
 
 import { ListarPagamentosService } from '../services/loja/ListarPagamentosService';
 
+import { CreatePixPaymentService } from '../services/pagamento/CreatePixPaymentService';
+import { CriarPagamentoCartaoService } from '../services/pagamento/CriarPagamentoCartaoService';
+import { WebhookMpService } from '../services/pagamento/WebhookMpService';
+
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
 const logoutService = new LogoutService();
@@ -239,6 +247,10 @@ const listarEntregaService = new ListarEntregaService();
 
 const listarPagamentosService = new ListarPagamentosService();
 
+const createPixPaymentService = new CreatePixPaymentService();
+const criarPagamentoCartaoService = new CriarPagamentoCartaoService();
+const webhookMpService = new WebhookMpService();
+
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
 export const logoutController = new LogoutController(logoutService);
@@ -309,3 +321,6 @@ export const editarEntregaController = new EditarEntregaController(editarEntrega
 export const deletarEntregaController = new DeletarEntregaController(deletarEntregaService);
 export const listarEntregaController = new ListarEntregaController(listarEntregaService);
 export const listarPagamentosController = new ListarPagamentosController(listarPagamentosService);
+export const createPixPaymentController = new CreatePixPaymentController(createPixPaymentService);
+export const criarPagamentoCartaoController = new CriarPagamentoCartaoController(criarPagamentoCartaoService);
+export const webhookMpController = new WebhookMpController(webhookMpService);
