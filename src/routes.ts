@@ -62,6 +62,14 @@ import {
     createPixPaymentController,
     criarPagamentoCartaoController,
     webhookMpController,
+    criarPedidoController,
+    editarPedidoController,
+    deletarPedidoController,
+    listarPedidosAdminController,
+    listarPedidosUserController, 
+    listarEnderecosUserController,
+    editarEnderecoUserController, 
+    deletarEnderecoUserController,
 } from './controllers';
 
 const upload = multer();
@@ -153,7 +161,17 @@ const initializeRoutes = (): Router => {
     router.post('/pagamento/cartao', isAuthenticated, criarPagamentoCartaoController.handle.bind(criarPagamentoCartaoController));
     router.post('/webhookmp', webhookMpController.handle.bind(webhookMpController));
 
+    // Rotas de pedido
+    router.post('/pedido/cadastrar', isAuthenticated, criarPedidoController.handle.bind(criarPedidoController));
+    router.put('/pedido/editar/:id', isAuthenticated, editarPedidoController.handle.bind(editarPedidoController));
+    router.delete('/pedido/deletar/:id', isAuthenticated, deletarPedidoController.handle.bind(deletarPedidoController));
+    router.get('/pedido/list/admin', isAuthenticated, listarPedidosAdminController.handle.bind(listarPedidosAdminController));
+    router.get('/pedido/list/user', isAuthenticated, listarPedidosUserController.handle.bind(listarPedidosUserController));
 
+    // Endereços do usuário
+    router.get('/endereco/user/list', isAuthenticated, listarEnderecosUserController.handle.bind(listarEnderecosUserController));
+    router.put('/endereco/user/editar/:id', isAuthenticated, editarEnderecoUserController.handle.bind(editarEnderecoUserController));
+    router.delete('/endereco/user/deletar/:id', isAuthenticated, deletarEnderecoUserController.handle.bind(deletarEnderecoUserController));
 
     return router;
 };
