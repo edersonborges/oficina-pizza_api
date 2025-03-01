@@ -58,7 +58,10 @@ import {
     editarEntregaController,
     deletarEntregaController,
     listarEntregaController,
-    listarPagamentosController
+    listarPagamentosController,
+    createPixPaymentController,
+    criarPagamentoCartaoController,
+    webhookMpController,
 } from './controllers';
 
 const upload = multer();
@@ -145,6 +148,11 @@ const initializeRoutes = (): Router => {
     router.get('/entrega/list', isAuthenticated, listarEntregaController.handle.bind(listarEntregaController));
 
     router.get('/pagamentos/list', isAuthenticated, listarPagamentosController.handle.bind(listarPagamentosController));
+
+    router.post('/pagamento/pix', isAuthenticated, createPixPaymentController.handle.bind(createPixPaymentController));
+    router.post('/pagamento/cartao', isAuthenticated, criarPagamentoCartaoController.handle.bind(criarPagamentoCartaoController));
+    router.post('/webhookmp', webhookMpController.handle.bind(webhookMpController));
+
 
 
     return router;
