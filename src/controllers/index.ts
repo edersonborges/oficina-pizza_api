@@ -84,6 +84,17 @@ import { CreatePixPaymentController } from './pagamento/CreatePixPaymentControll
 import { CriarPagamentoCartaoController } from './pagamento/CriarPagamentoCartaoController';
 import { WebhookMpController } from './pagamento/WebhookMpController';
 
+import { CriarPedidoController } from './pedido/CriarPedidoController';
+import { EditarPedidoController } from './pedido/EditarPedidoController';
+import { DeletarPedidoController } from './pedido/DeletarPedidoController';
+import { ListarPedidosAdminController } from './pedido/ListarPedidosAdminController';
+import { ListarPedidosUserController } from './pedido/ListarPedidosUserController';
+
+import { ListarEnderecosUserController } from './endereco/ListarEnderecosUserController';
+import { EditarEnderecoUserController } from './endereco/EditarEnderecoUserController';
+import { DeletarEnderecoUserController } from './endereco/DeletarEnderecoUserController';
+
+
 import { CreateUserService } from '../services/users/CreateUserService';
 import { AuthUserService } from '../services/users/AuthUserService';
 import { LogoutService } from '../services/users/LogoutService';
@@ -169,6 +180,17 @@ import { CreatePixPaymentService } from '../services/pagamento/CreatePixPaymentS
 import { CriarPagamentoCartaoService } from '../services/pagamento/CriarPagamentoCartaoService';
 import { WebhookMpService } from '../services/pagamento/WebhookMpService';
 
+import { CriarPedidoService } from '../services/pedido/CriarPedidoService';
+import { EditarPedidoService } from '../services/pedido/EditarPedidoService';
+import { DeletarPedidoService } from '../services/pedido/DeletarPedidoService';
+import { ListarPedidosAdminService } from '../services/pedido/ListarPedidosAdminService';
+import { ListarPedidosUserService } from '../services/pedido/ListarPedidosUserService';
+
+import { ListarEnderecosUserService } from '../services/endereco/ListarEnderecosUserService';
+import { EditarEnderecoUserService } from '../services/endereco/EditarEnderecoUserService';
+import { DeletarEnderecoUserService } from '../services/endereco/DeletarEnderecoUserService';
+
+
 const createUserService = new CreateUserService();
 const authUserService = new AuthUserService();
 const logoutService = new LogoutService();
@@ -251,6 +273,16 @@ const createPixPaymentService = new CreatePixPaymentService();
 const criarPagamentoCartaoService = new CriarPagamentoCartaoService();
 const webhookMpService = new WebhookMpService();
 
+const criarPedidoService = new CriarPedidoService();
+const editarPedidoService = new EditarPedidoService();
+const deletarPedidoService = new DeletarPedidoService();
+const listarPedidosAdminService = new ListarPedidosAdminService();
+const listarPedidosUserService = new ListarPedidosUserService();
+
+const listarEnderecosUserService = new ListarEnderecosUserService();
+const editarEnderecoUserService = new EditarEnderecoUserService();
+const deletarEnderecoUserService = new DeletarEnderecoUserService();
+
 export const createUserController = new CreateUserController(createUserService);
 export const authUserController = new AuthUserController(authUserService);
 export const logoutController = new LogoutController(logoutService);
@@ -324,3 +356,11 @@ export const listarPagamentosController = new ListarPagamentosController(listarP
 export const createPixPaymentController = new CreatePixPaymentController(createPixPaymentService);
 export const criarPagamentoCartaoController = new CriarPagamentoCartaoController(criarPagamentoCartaoService);
 export const webhookMpController = new WebhookMpController(webhookMpService);
+export const criarPedidoController = new CriarPedidoController(criarPedidoService);
+export const editarPedidoController = new EditarPedidoController(editarPedidoService);
+export const deletarPedidoController = new DeletarPedidoController(deletarPedidoService);
+export const listarPedidosAdminController = new ListarPedidosAdminController(listarPedidosAdminService);
+export const listarPedidosUserController = new ListarPedidosUserController(listarPedidosUserService);
+export const listarEnderecosUserController = new ListarEnderecosUserController(listarEnderecosUserService);
+export const editarEnderecoUserController = new EditarEnderecoUserController(editarEnderecoUserService);
+export const deletarEnderecoUserController = new DeletarEnderecoUserController(deletarEnderecoUserService);

@@ -7,6 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CupomPublico {
+  CLIENTES
+  CLIENTES_NOVOS
+  ANIVERSARIANTES
+}
+
+enum CupomTipoDesc {
+  FIXO
+  ENTREGA_GRATIS
+  PORCENTAGEM
+}
+
+enum TipoPedido {
+  ENTREGA
+  RETIRADA
+}
+
 // Enum para diferenciar o tipo de produto
 enum ProdutoTipo {
   PIZZA
@@ -14,17 +31,28 @@ enum ProdutoTipo {
   OUTRO
 }
 
+// Localize e mantenha APENAS ESTA DEFINIÇÃO:
+enum PedidoStatus {
+  AGUARDANDO_PAGAMENTO
+  PENDENTE
+  EM_PRODUCAO
+  SAIU_PARA_ENTREGA
+  ENTREGUE
+  CANCELADO
+}
+
 //
 //  Modelo usuario
 //
 model usuario {
-  id        String    @id @default(uuid()) @map("_id")
-  nome      String
-  email     String    @unique
-  cpf       String?   @unique
-  telefone  String
-  senha     String
-  tipo      Int       @default(3)
+  id       String    @id @default(uuid()) @map("_id")
+  nome     String
+  email    String    @unique
+  cpf      String?   @unique
+  telefone String
+  senha    String
+  tipo     Int       @default(3)
+  dataNasc DateTime?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -39,284 +67,289 @@ model usuario {
 //  Modelo endereco
 //
 model endereco {
-  id          String   @id @default(uuid()) @map("_id")
-  usuarioId   String   @map("usuario_id")
+  id          String  @id @default(uuid()) @map("_id")
+  usuarioId   String  @map("usuario_id")
   rua         String
   numero      String
   bairro      String
   cidade      String
   cep         String
   complemento String?
-  padrao      Boolean  @default(false)
+  padrao      Boolean @default(false)
   latitude    Float
   longitude   Float
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  usuario     usuario  @relation(fields: [usuarioId], references: [id])
+  usuario usuario @relation(fields: [usuarioId], references: [id])
 }
 
 //
 //  Modelo categoria
 //
 model categoria {
-  id             String         @id @default(uuid()) @map("_id")
-  nome           String
-  tipo           String
-  ativo          Boolean        @default(false)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  deletedAt      DateTime?
+  id        String    @id @default(uuid()) @map("_id")
+  nome      String
+  tipo      String
+  ativo     Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  subCategorias  subCategoria[]
+  subCategorias subCategoria[]
 }
 
 //
 //  Modelo subCategoria
 //
 model subCategoria {
-  id             String         @id @default(uuid()) @map("_id")
-  nome           String
-  ativo          Boolean        @default(false)
-  
-  categoriaId    String         @map("categoria_id")
-  categoria      categoria      @relation(fields: [categoriaId], references: [id])
-  
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  deletedAt      DateTime?
+  id    String  @id @default(uuid()) @map("_id")
+  nome  String
+  ativo Boolean @default(false)
 
-  itens          itens[]
+  categoriaId String    @map("categoria_id")
+  categoria   categoria @relation(fields: [categoriaId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  itens itens[]
 }
 
 //
 //  Modelo arquivos
 //
 model arquivos {
-  id          String     @id @default(uuid()) @map("_id")
-  lojaId      String?    @map("loja_id")
-  
-  // Novo campo opcional para o usuário
-  userId      String?
+  id     String  @id @default(uuid()) @map("_id")
+  lojaId String? @map("loja_id")
+  userId String?
 
-  img_key     String
-  tipo        String
+  img_key String
+  tipo    String
 
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Relações com outros modelos
-  sabores     sabores[]
-  massas      massas[]
-  itens       itens[]
+  sabores sabores[]
+  massas  massas[]
+  itens   itens[]
 
-  loja        loja?      @relation(fields: [lojaId], references: [id])
-  // Removemos a relação com promocao, pois as imagens de promoções ficarão no modelo promocao_itens
-
-  usuario     usuario?   @relation(fields: [userId], references: [id])
+  loja    loja?    @relation(fields: [lojaId], references: [id])
+  usuario usuario? @relation(fields: [userId], references: [id])
 }
 
 //
 //  Modelo itens
 //
 model itens {
-  id              String         @id @default(uuid()) @map("_id")
-  nome            String
-  descricao       String
-  preco           Float
-  ativo           Boolean        @default(false)
-  tipoProduto     ProdutoTipo    @default(OUTRO)
-  
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  deletedAt       DateTime?
+  id          String      @id @default(uuid()) @map("_id")
+  nome        String
+  descricao   String
+  preco       Float
+  ativo       Boolean     @default(false)
+  tipoProduto ProdutoTipo @default(OUTRO)
 
-  imagemId        String?        @map("imagem_id")
-  arquivo         arquivos?      @relation(fields: [imagemId], references: [id])
-  
-  subCategoriaId  String         @map("sub_categoria_id")
-  subCategoria    subCategoria   @relation(fields: [subCategoriaId], references: [id])
-  
-  sabores         sabores[]
-  massas          massas[]
-  adicionais      adicionais[]
-  tamanhos        tamanhos[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  pedidoItens     pedido_itens[]
+  imagemId String?   @map("imagem_id")
+  arquivo  arquivos? @relation(fields: [imagemId], references: [id])
+
+  subCategoriaId String       @map("sub_categoria_id")
+  subCategoria   subCategoria @relation(fields: [subCategoriaId], references: [id])
+
+  sabores    sabores[]
+  massas     massas[]
+  adicionais adicionais[]
+  tamanhos   tamanhos[]
+
+  pedidoItens pedido_itens[]
 }
 
 //
 //  Modelo sabores
 //
 model sabores {
-  id          String     @id @default(uuid()) @map("_id")
-  nome        String
-  descricao   String
-  valor       Float
-  ativo       Boolean    @default(false)
-  
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?
+  id        String  @id @default(uuid()) @map("_id")
+  nome      String
+  descricao String
+  valor     Float
+  ativo     Boolean @default(false)
 
-  imagemId    String?    @map("imagem_id")
-  arquivo     arquivos?  @relation(fields: [imagemId], references: [id])
-  
-  itemId      String
-  item        itens      @relation(fields: [itemId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  imagemId String?   @map("imagem_id")
+  arquivo  arquivos? @relation(fields: [imagemId], references: [id])
+
+  itemId String
+  item   itens  @relation(fields: [itemId], references: [id])
+
+  // Campo oposto para "pedido_itens_sabores"
+  pedidoItensSabores pedido_itens_sabores[]
 }
 
 //
 //  Modelo massas
 //
 model massas {
-  id          String     @id @default(uuid()) @map("_id")
-  nome        String
-  descricao   String
-  valor       Float
-  ativo       Boolean    @default(false)
-  
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?
+  id        String  @id @default(uuid()) @map("_id")
+  nome      String
+  descricao String
+  valor     Float
+  ativo     Boolean @default(false)
 
-  imagemId    String?    @map("imagem_id")
-  arquivo     arquivos?  @relation(fields: [imagemId], references: [id])
-  
-  itemId      String
-  item        itens      @relation(fields: [itemId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  imagemId String?   @map("imagem_id")
+  arquivo  arquivos? @relation(fields: [imagemId], references: [id])
+
+  itemId String
+  item   itens  @relation(fields: [itemId], references: [id])
+
+  // Campo oposto para pedido_itens
+  pedidoItens pedido_itens[]
 }
 
 //
 //  Modelo adicionais
 //
 model adicionais {
-  id          String           @id @default(uuid()) @map("_id")
-  nome        String
-  valor       Float
-  qntd_min    Int
-  qntd_max    Int
-  ativo       Boolean          @default(false)
-  
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  deletedAt   DateTime?
+  id       String  @id @default(uuid()) @map("_id")
+  nome     String
+  valor    Float
+  qntd_min Int
+  qntd_max Int
+  ativo    Boolean @default(false)
 
-  itemId      String
-  item        itens            @relation(fields: [itemId], references: [id])
-  
-  pedidoAdcs  pedido_itens_adc[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  itemId String
+  item   itens  @relation(fields: [itemId], references: [id])
+
+  pedidoAdcs pedido_itens_adc[]
 }
 
 //
 //  Modelo tamanhos
 //
 model tamanhos {
-  id          String    @id @default(uuid()) @map("_id")
-  nome        String
-  pedacos     Int
-  sabores     Int       // Quantidade de sabores permitidos
-  valor       Float
-  ativo       Boolean   @default(false)
-  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
+  id      String  @id @default(uuid()) @map("_id")
+  nome    String
+  pedacos Int
+  sabores Int
+  valor   Float
+  ativo   Boolean @default(false)
 
-  itemId      String
-  item        itens     @relation(fields: [itemId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  itemId String
+  item   itens  @relation(fields: [itemId], references: [id])
+
+  // Campo oposto para pedido_itens
+  pedidoItens pedido_itens[]
 }
 
 //
 //  Modelo loja
 //
 model loja {
-  id           String               @id @default(uuid()) @map("_id")
-  nome         String
-  descricao    String
-  pedidoMin    Float
-  cep          String
-  rua          String
-  numero       String
-  bairro       String
-  cidade       String
+  id        String @id @default(uuid()) @map("_id")
+  nome      String
+  descricao String
+  pedidoMin Float
+  cep       String
+  rua       String
+  numero    String
+  bairro    String
+  cidade    String
 
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  deletedAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  imagens      arquivos[]
+  imagens arquivos[]
 
-  horarios     horarioFuncionamento[]
-  pausas       pausaServico[]
-  feriados     feriado[]
+  horarios horarioFuncionamento[]
+  pausas   pausaServico[]
+  feriados feriado[]
 
-  pedidos      pedido[]
+  pedidos pedido[]
 }
 
 //
 //  Modelo horarioFuncionamento
 //
 model horarioFuncionamento {
-  id             String   @id @default(uuid()) @map("_id")
+  id             String    @id @default(uuid()) @map("_id")
   diaSemana      Int
   horaAbertura   DateTime?
   horaFechamento DateTime?
-  aberto         Boolean  @default(true)
+  aberto         Boolean   @default(true)
 
-  lojaId         String   @map("loja_id")
-  loja           loja     @relation(fields: [lojaId], references: [id])
+  lojaId String @map("loja_id")
+  loja   loja   @relation(fields: [lojaId], references: [id])
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //
 //  Modelo pausaServico
 //
 model pausaServico {
-  id          String    @id @default(uuid()) @map("_id")
-  dataInicio  DateTime
-  dataFim     DateTime?
-  descricao   String?
+  id         String    @id @default(uuid()) @map("_id")
+  dataInicio DateTime
+  dataFim    DateTime?
+  descricao  String?
 
-  lojaId      String    @map("loja_id")
-  loja        loja      @relation(fields: [lojaId], references: [id])
+  lojaId String @map("loja_id")
+  loja   loja   @relation(fields: [lojaId], references: [id])
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //
 //  Modelo feriado
 //
 model feriado {
-  id             String   @id @default(uuid()) @map("_id")
+  id             String    @id @default(uuid()) @map("_id")
   data           DateTime
   horaAbertura   DateTime?
   horaFechamento DateTime?
-  aberto         Boolean  @default(true)
+  aberto         Boolean   @default(true)
   descricao      String?
 
-  lojaId         String   @map("loja_id")
-  loja           loja     @relation(fields: [lojaId], references: [id])
+  lojaId String @map("loja_id")
+  loja   loja   @relation(fields: [lojaId], references: [id])
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //
 //  Modelo entrega
 //
 model entrega {
-  id        String   @id @default(uuid()) @map("_id")
-  tipo      String
-  tempo     String
-  taxa      Float
-  ativo     Boolean  @default(true)
+  id    String  @id @default(uuid()) @map("_id")
+  tipo  String
+  tempo String
+  taxa  Float
+  ativo Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -326,18 +359,24 @@ model entrega {
 //  Modelo cupom_desconto
 //
 model cupom_desconto {
-  id             String    @id @default(uuid()) @map("_id")
+  id             String         @id @default(uuid()) @map("_id")
   nome           String
   dataInicio     DateTime
   dataFim        DateTime
   descricao      String
-  valor          Float?    // Valor opcional
-  tipoDesc       String
+  valor          Float?         // Usado para FIXO ou PORCENTAGEM
+  tipoDesc       CupomTipoDesc  // Enum { FIXO, ENTREGA_GRATIS, PORCENTAGEM }
   qntdDisponivel Int
 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  deletedAt      DateTime?
+  // Novo campo para dizer para quem é este cupom
+  publico        CupomPublico   // Enum { CLIENTES, CLIENTES_NOVOS, ANIVERSARIANTES }
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relação com pedidos
+  pedidos pedido[]
 }
 
 
@@ -345,54 +384,52 @@ model cupom_desconto {
 //  Modelo promocao
 //
 model promocao {
-  id            String           @id @default(uuid()) @map("_id")
+  id            String    @id @default(uuid()) @map("_id")
   nome          String
   descricao     String
-  valorPromocao Float            // Valor final da promoção
-  dataInicio    DateTime         // Data de início (UTC)
-  dataFim       DateTime         // Data de fim (UTC)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  deletedAt     DateTime?        // Adicionado para soft delete
+  valorPromocao Float
+  dataInicio    DateTime
+  dataFim       DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
 
-  itens         promocao_itens[]
+  itens promocao_itens[]
 }
-
 
 //
 //  Modelo promocao_itens
 //
 model promocao_itens {
-  id          String     @id @default(uuid()) @map("_id")
-  nome        String
-  descricao   String
-  valor       Float
-  img_key     String?    // Imagem de cada item da promoção
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  deletedAt   DateTime?  // Campo para soft delete
+  id        String    @id @default(uuid()) @map("_id")
+  nome      String
+  descricao String
+  valor     Float
+  img_key   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  promocao    promocao?  @relation(fields: [promocaoId], references: [id])
-  promocaoId  String?
+  promocao   promocao? @relation(fields: [promocaoId], references: [id])
+  promocaoId String?
 }
-
 
 //
 //  Modelo pagamentos
 //
 model pagamentos {
-  id           String   @id @default(uuid()) @map("_id")
-  transacaoId  String
-  forma        String
-  status       String
-  valor        Float
-  dataPagamentos      DateTime?
+  id             String    @id @default(uuid()) @map("_id")
+  transacaoId    String
+  forma          String
+  status         String
+  valor          Float
+  dataPagamentos DateTime?
 
-  pedidoId     String   @map("pedido_id")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  pedidoId  String   @map("pedido_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  pedido       pedido   @relation(fields: [pedidoId], references: [id])
+  pedido pedido @relation(fields: [pedidoId], references: [id])
 }
 
 //
@@ -402,7 +439,13 @@ model pedido {
   id               String           @id @default(uuid()) @map("_id")
   usuarioId        String?          @map("usuario_id")
   usuario          usuario?         @relation(fields: [usuarioId], references: [id])
-  dataPedido      DateTime?
+  dataPedido       DateTime?
+
+  status           PedidoStatus     @default(PENDENTE)
+  tipoPedido       TipoPedido       @default(RETIRADA)  // Se for entrega ou retirada
+
+  valorTotal       Float?           // Valor final do pedido + taxa (opcional armazenar)
+
   formaPagamentoId String?          @map("forma_pagamento_id")
   formaPagamento   forma_pagamento? @relation(fields: [formaPagamentoId], references: [id])
 
@@ -414,6 +457,9 @@ model pedido {
 
   pagamentos       pagamentos[]
 
+  cupomId          String?          @map("cupom_id")
+  cupom            cupom_desconto?  @relation(fields: [cupomId], references: [id])
+
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   deletedAt        DateTime?
@@ -423,67 +469,89 @@ model pedido {
 //  Modelo forma_pagamento
 //
 model forma_pagamento {
-  id        String    @id @default(uuid()) @map("_id")
-  nome      String
-  ativo     Boolean   @default(true)
+  id    String  @id @default(uuid()) @map("_id")
+  nome  String
+  ativo Boolean @default(true)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  pedidos   pedido[]
+  pedidos pedido[]
 }
 
 //
 //  Modelo avaliacoes
 //
 model avaliacoes {
-  id          String   @id @default(uuid()) @map("_id")
-  nota        Int
-  comentario  String
-  pedidoId    String   @map("pedido_id")
-  dataAvaliacao      DateTime?
+  id            String    @id @default(uuid()) @map("_id")
+  nota          Int
+  comentario    String
+  pedidoId      String    @map("pedido_id")
+  dataAvaliacao DateTime?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  pedido      pedido   @relation(fields: [pedidoId], references: [id])
+  pedido pedido @relation(fields: [pedidoId], references: [id])
 }
 
 //
 //  Modelo pedido_itens
 //
 model pedido_itens {
-  id         String   @id @default(uuid()) @map("_id")
-  pedidoId   String   @map("pedido_id")
-  itemId     String   @map("item_id")
+  id         String @id @default(uuid()) @map("_id")
+  pedidoId   String @map("pedido_id")
+  itemId     String @map("item_id")
   quantidade Int
   preco      Float
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  pedido     pedido   @relation(fields: [pedidoId], references: [id])
-  item       itens    @relation(fields: [itemId], references: [id])
-
+  pedido     pedido             @relation(fields: [pedidoId], references: [id])
+  item       itens              @relation(fields: [itemId], references: [id])
   adicionais pedido_itens_adc[]
+
+  tamanhoId String?
+  tamanho   tamanhos? @relation(fields: [tamanhoId], references: [id])
+
+  massaId String?
+  massa   massas? @relation(fields: [massaId], references: [id])
+
+  saboresEscolhidos pedido_itens_sabores[]
 }
 
 //
 //  Modelo pedido_itens_adc
 //
 model pedido_itens_adc {
-  id           String         @id @default(uuid()) @map("_id")
-  pedidoItemId String         @map("pedido_itens_id")
-  adicionalId  String         @map("adicional_id")
+  id           String @id @default(uuid()) @map("_id")
+  pedidoItemId String @map("pedido_itens_id")
+  adicionalId  String @map("adicional_id")
   quantidade   Int
   preco        Float
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  pedidoItem   pedido_itens   @relation(fields: [pedidoItemId], references: [id])
-  adicional    adicionais     @relation(fields: [adicionalId], references: [id])
+  pedidoItem pedido_itens @relation(fields: [pedidoItemId], references: [id])
+  adicional  adicionais   @relation(fields: [adicionalId], references: [id])
+}
+
+//
+//  Modelo pedido_itens_sabores
+//
+model pedido_itens_sabores {
+  id           String @id @default(uuid()) @map("_id")
+  pedidoItemId String @map("pedido_itens_id")
+  saborId      String @map("sabor_id")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pedidoItem pedido_itens @relation(fields: [pedidoItemId], references: [id])
+  sabor      sabores      @relation(fields: [saborId], references: [id])
 }
 
 //
@@ -503,11 +571,11 @@ model convite {
 //  Modelo recSenhaToken
 //
 model recSenhaToken {
-  id         String    @id @default(uuid()) 
-  email      String
-  token      String
-  isUsed     Boolean   @default(false)
-  
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id     String  @id @default(uuid())
+  email  String
+  token  String
+  isUsed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -15,3 +15,4 @@ export const AWS_REGION = process.env.AWS_REGION;
 export const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 export const BASE_URL_EMAIL = process.env.BASE_URL_EMAIL;
 export const REDIS_URL = process.env.REDIS_URL;
+export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
